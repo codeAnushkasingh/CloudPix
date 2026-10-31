@@ -1,0 +1,24 @@
+# ==============================================================================
+# CloudPix - Render Blueprint Configuration (render.yaml)
+# Docs: https://render.com/docs/blueprint-spec
+# ==============================================================================
+
+services:
+  - type: web
+    name: cloudpix
+    runtime: python
+    plan: free
+    buildCommand: pip install -r backend/requirements.txt
+    startCommand: gunicorn wsgi:app --bind 0.0.0.0:$PORT
+    envVars:
+      - key: FLASK_ENV
+        value: production
+      - key: FLASK_DEBUG
+        value: "False"
+      - key: STORAGE_MODE
+        value: local
+      - key: SECRET_KEY
+        generateValue: true
+      - key: MAX_CONTENT_LENGTH
+        value: "5242880"
+

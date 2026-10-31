@@ -264,6 +264,55 @@ For comprehensive step-by-step instructions with screenshots and policy JSON, se
 
 ---
 
+## 🌐 Production Deployment: Render (Cloud Hosting)
+
+Deploy CloudPix to **[Render](https://render.com/)** in under 3 minutes using Gunicorn. Render provides free cloud hosting with automated SSL and Git-based deployments.
+
+> [!NOTE]
+> On Render, CloudPix runs out-of-the-box in **Local Demo Mode** without needing any AWS credentials or account. All images and features work immediately.
+
+### Option 1: Automatic Deploy with Render Blueprint (`render.yaml`)
+1. Fork or push this repository to your GitHub account (`https://github.com/codeAnushkasingh/CloudPix`).
+2. Log in to [dashboard.render.com](https://dashboard.render.com/).
+3. Click **New +** -> **Blueprint**.
+4. Connect your `CloudPix` repository.
+5. Render will detect [`render.yaml`](render.yaml) and automatically configure the build command, start command, and environment variables!
+6. Click **Apply**.
+
+---
+
+### Option 2: Manual Web Service Setup
+If creating a standard Web Service manually on Render:
+
+1. In your Render Dashboard, click **New +** -> **Web Service**.
+2. Select **Build and deploy from a Git repository** -> Connect `codeAnushkasingh/CloudPix`.
+3. Fill in the following exact settings:
+
+| Setting | Value |
+| :--- | :--- |
+| **Name** | `cloudpix` |
+| **Language / Runtime** | `Python 3` |
+| **Branch** | `main` |
+| **Region** | Any (e.g. `Oregon (US West)` or `Frankfurt (EU)`) |
+| **Build Command** | `pip install -r backend/requirements.txt` |
+| **Start Command** | `gunicorn wsgi:app --bind 0.0.0.0:$PORT` |
+| **Instance Type** | `Free` |
+
+4. Under **Environment Variables**, add:
+
+| Key | Value | Description |
+| :--- | :--- | :--- |
+| `STORAGE_MODE` | `local` | Ensures platform runs in Local Demo Mode without AWS credentials |
+| `FLASK_ENV` | `production` | Production environment configuration |
+| `FLASK_DEBUG` | `False` | Disables debug mode in production |
+| `SECRET_KEY` | *(Click "Generate" or enter random string)* | Secures session & cryptographic tokens |
+| `MAX_CONTENT_LENGTH` | `5242880` | Enforces 5 MB file upload ceiling |
+
+5. Click **Create Web Service**.
+6. Render will install dependencies, launch Gunicorn on the dynamically assigned `PORT`, and provide your live public URL (e.g., `https://cloudpix.onrender.com`).
+
+---
+
 ## 🔌 API Reference
 
 All API routes return standardized JSON payloads:
