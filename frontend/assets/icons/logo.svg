@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+  <defs>
+    <linearGradient id="cloudpix_grad" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E7B0DE"/>
+      <stop offset="100%" stop-color="#400849"/>
+    </linearGradient>
+    <filter id="shadow" x="0" y="2" width="48" height="46" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#400849" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+  <rect x="4" y="4" width="40" height="40" rx="12" fill="url(#cloudpix_grad)" filter="url(#shadow)"/>
+  <path d="M16 29C14.3431 29 13 27.6569 13 26C13 24.5361 14.0487 23.3155 15.4497 23.0543C15.6547 19.6468 18.5204 17 22 17C24.4795 17 26.657 18.3516 27.8016 20.3547C28.3248 20.1265 28.899 20 29.5 20C31.9853 20 34 22.0147 34 24.5C34 24.646 33.993 24.7903 33.9793 24.9328C34.5902 25.4387 35 26.1952 35 27C35 28.6569 33.6569 30 32 30H16.5" stroke="#FFFFFF" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M24 23V33M24 23L20.5 26.5M24 23L27.5 26.5" stroke="#F8F0F8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+

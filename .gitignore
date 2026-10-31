@@ -1,0 +1,37 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Environment variables & secrets (NEVER commit credentials)
+.env
+.env.local
+.env.*.local
+
+# Local Demo Mode uploaded files & metadata
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Logs & temporary files
+*.log
+logs/
+
+# IDE & OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+Desktop.ini
+

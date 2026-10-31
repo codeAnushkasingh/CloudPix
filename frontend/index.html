@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CloudPix – Your Images, Your Cloud</title>
+  <meta name="description" content="A modern, secure cloud image hosting platform powered by Python Flask and AWS S3 with secure Presigned URLs." />
+  <link rel="icon" type="image/svg+xml" href="assets/icons/logo.svg" />
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- =========================================================================
+       NAVIGATION BAR
+  ========================================================================== -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#hero" class="brand-logo" aria-label="CloudPix Home">
+        <div class="logo-icon-wrap">
+          <img src="assets/icons/logo.svg" alt="CloudPix Logo" class="logo-img" />
+        </div>
+        <div class="brand-text">
+          <span class="brand-name">CloudPix</span>
+          <span class="brand-tagline">Your Images, Your Cloud</span>
+        </div>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#hero" class="nav-link active">Home</a>
+        <a href="#features" class="nav-link">Features</a>
+        <a href="#dashboard" class="nav-link">Dashboard</a>
+        <a href="#architecture" class="nav-link">Architecture</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Live Storage Engine Status Badge -->
+        <div class="status-pill" id="storageStatusPill" title="Checking backend status...">
+          <span class="status-dot pulsing"></span>
+          <span class="status-text" id="storageStatusText">Connecting...</span>
+        </div>
+
+        <a href="#uploadCard" class="btn btn-primary btn-sm">
+          <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 5v14M5 12h14"/>
+          </svg>
+          Upload
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       HERO / LANDING SECTION
+  ========================================================================== -->
+  <main>
+    <section class="hero-section" id="hero">
+      <div class="hero-container">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span class="badge-icon">⚡</span>
+            <span>Cloud-Native Image Storage & Presigned URLs</span>
+          </div>
+
+          <h1 class="hero-title">
+            Your Images, <span class="gradient-text">Your Cloud.</span>
+          </h1>
+
+          <p class="hero-subtitle">
+            A secure, modern image hosting platform engineered with <strong>Python Flask</strong> and 
+            <strong>AWS S3</strong>. Keep buckets 100% private with time-limited presigned URLs, zero credential leaks, and instant local demo fallback.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#dashboard" class="btn btn-primary btn-lg">
+              <span>Go to Dashboard</span>
+              <svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+            <a href="#architecture" class="btn btn-secondary btn-lg">
+              <span>How It Works</span>
+            </a>
+          </div>
+
+          <!-- Feature Pills in Hero -->
+          <div class="hero-highlights">
+            <div class="highlight-item">
+              <span class="hl-check">✓</span>
+              <span>Private S3 Buckets</span>
+            </div>
+            <div class="highlight-item">
+              <span class="hl-check">✓</span>
+              <span>Presigned URLs (60m)</span>
+            </div>
+            <div class="highlight-item">
+              <span class="hl-check">✓</span>
+              <span>EC2 IAM Roles</span>
+            </div>
+            <div class="highlight-item">
+              <span class="hl-check">✓</span>
+              <span>Offline Local Demo</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual">
+          <div class="visual-card-wrapper">
+            <img src="assets/images/hero-illustration.svg" alt="CloudPix Cloud Architecture Illustration" class="hero-illustration" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         STORAGE MODE BANNER (Transparency callout)
+    ========================================================================== -->
+    <section class="mode-banner-section">
+      <div class="container">
+        <div class="mode-callout-card" id="modeCalloutCard">
+          <div class="mode-card-icon" id="modeCardIcon">
+            <img src="assets/icons/local-badge.svg" alt="Mode Badge" onerror="this.src='assets/icons/logo.svg'" />
+          </div>
+          <div class="mode-card-content">
+            <div class="mode-header-line">
+              <h3 id="modeTitle">Storage Engine: Checking...</h3>
+              <span class="badge badge-mode" id="modeBadge">Status</span>
+            </div>
+            <p id="modeDescription">
+              Connecting to the CloudPix backend API to determine storage engine status...
+            </p>
+          </div>
+          <div class="mode-card-action">
+            <button class="btn btn-outline btn-sm" id="btnRefreshHealth">
+              <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+              </svg>
+              Check Health
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         DASHBOARD SECTION
+    ========================================================================== -->
+    <section class="dashboard-section" id="dashboard">
+      <div class="container">
+        
+        <!-- Dashboard Header & Stats -->
+        <div class="dashboard-header">
+          <div class="header-titles">
+            <h2 class="section-title">Image Dashboard</h2>
+            <p class="section-subtitle">Manage, preview, download, and organize all your hosted images.</p>
+          </div>
+        </div>
+
+        <!-- Metric Stat Cards -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-icon-primary">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Total Images</span>
+              <span class="stat-value" id="statTotalImages">0</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-icon-accent">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"/>
+                <line x1="12" y1="22.08" x2="12" y2="12"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Total Storage Used</span>
+              <span class="stat-value" id="statTotalStorage">0 KB</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-icon-mode">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">Active Storage</span>
+              <span class="stat-value small-text" id="statStorageEngine">Local Demo</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-icon-wrap stat-icon-time">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <div class="stat-info">
+              <span class="stat-label">URL Security Window</span>
+              <span class="stat-value" id="statUrlExpiry">60 mins</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             UPLOAD CARD (Drag-and-drop & File picker)
+        ====================================================================== -->
+        <div class="upload-wrapper" id="uploadCard">
+          <div class="card upload-card">
+            <div class="card-header">
+              <div class="header-with-badge">
+                <h3 class="card-title">Upload New Image</h3>
+                <span class="badge badge-soft">Max 5 MB</span>
+              </div>
+              <p class="card-desc">Drag and drop your image file here or click to browse. Preview before saving to the cloud.</p>
+            </div>
+
+            <!-- Drag & Drop Zone -->
+            <div class="dropzone" id="dropzone">
+              <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.webp" class="file-input-hidden" />
+              
+              <div class="dropzone-default" id="dropzoneDefault">
+                <div class="upload-icon-circle">
+                  <img src="assets/icons/upload-cloud.svg" alt="Upload Icon" class="upload-icon-svg" />
+                </div>
+                <h4 class="dropzone-title">Drag & drop your image here</h4>
+                <p class="dropzone-subtitle">or <button type="button" class="btn-text-action" id="btnBrowse">browse files</button> from your computer</p>
+                <div class="format-tags">
+                  <span class="tag">PNG</span>
+                  <span class="tag">JPG</span>
+                  <span class="tag">JPEG</span>
+                  <span class="tag">WEBP</span>
+                  <span class="tag-divider">•</span>
+                  <span class="tag-limit">Up to 5 MB</span>
+                </div>
+              </div>
+
+              <!-- Upload Preview Container (Shown when a file is selected) -->
+              <div class="preview-stage hidden" id="previewStage">
+                <div class="preview-card">
+                  <div class="preview-thumb-wrap">
+                    <img id="previewImage" src="" alt="Selected Image Preview" class="preview-thumb" />
+                  </div>
+                  <div class="preview-details">
+                    <div class="preview-meta-row">
+                      <span class="preview-filename" id="previewFilename">filename.png</span>
+                      <span class="badge badge-accent" id="previewFormat">PNG</span>
+                    </div>
+                    <div class="preview-sub-meta">
+                      <span id="previewSize">2.4 MB</span>
+                      <span class="meta-dot">•</span>
+                      <span class="validation-status status-valid" id="previewValidation">Ready to upload</span>
+                    </div>
+                    <div class="preview-actions">
+                      <button type="button" class="btn btn-primary" id="btnConfirmUpload">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/>
+                          <path d="M12 12v9"/>
+                          <path d="m16 16-4-4-4 4"/>
+                        </svg>
+                        <span>Upload to Cloud</span>
+                      </button>
+                      <button type="button" class="btn btn-ghost" id="btnCancelPreview">
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Animated Upload Progress Bar -->
+                <div class="progress-container hidden" id="uploadProgressContainer">
+                  <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="uploadProgressBar"></div>
+                  </div>
+                  <div class="progress-info">
+                    <span id="uploadProgressStatus">Uploading image...</span>
+                    <span id="uploadProgressPercent">0%</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- =====================================================================
+             GALLERY CONTROLS & TOOLBAR
+        ====================================================================== -->
+        <div class="gallery-section" id="gallerySection">
+          <div class="toolbar-card">
+            
+            <!-- Search Bar -->
+            <div class="search-box">
+              <img src="assets/icons/search.svg" alt="Search" class="search-icon" />
+              <input type="text" id="searchInput" placeholder="Search images by filename..." class="search-input" />
+              <button class="clear-search hidden" id="btnClearSearch" title="Clear search">✕</button>
+            </div>
+
+            <!-- Format Filter Pills -->
+            <div class="filter-group">
+              <span class="filter-label">Format:</span>
+              <div class="filter-pills" id="formatFilters">
+                <button class="pill active" data-format="all">All</button>
+                <button class="pill" data-format="PNG">PNG</button>
+                <button class="pill" data-format="JPG">JPG/JPEG</button>
+                <button class="pill" data-format="WEBP">WEBP</button>
+              </div>
+            </div>
+
+            <!-- Sort By Dropdown -->
+            <div class="sort-group">
+              <label for="sortSelect" class="sort-label">Sort:</label>
+              <select id="sortSelect" class="select-control">
+                <option value="newest">Newest First</option>
+                <option value="oldest">Oldest First</option>
+                <option value="size-desc">Largest Size</option>
+                <option value="size-asc">Smallest Size</option>
+                <option value="name-asc">Name (A-Z)</option>
+              </select>
+            </div>
+
+            <!-- View Toggle & Refresh -->
+            <div class="toolbar-actions">
+              <div class="view-toggles">
+                <button class="view-btn active" id="btnGridView" title="Grid View">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="3" width="7" height="7"/>
+                    <rect x="14" y="3" width="7" height="7"/>
+                    <rect x="14" y="14" width="7" height="7"/>
+                    <rect x="3" y="14" width="7" height="7"/>
+                  </svg>
+                </button>
+                <button class="view-btn" id="btnListView" title="List View">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="8" y1="6" x2="21" y2="6"/>
+                    <line x1="8" y1="12" x2="21" y2="12"/>
+                    <line x1="8" y1="18" x2="21" y2="18"/>
+                    <line x1="3" y1="6" x2="3.01" y2="6"/>
+                    <line x1="3" y1="12" x2="3.01" y2="12"/>
+                    <line x1="3" y1="18" x2="3.01" y2="18"/>
+                  </svg>
+                </button>
+              </div>
+
+              <button class="btn btn-icon-only" id="btnRefreshGallery" title="Refresh Gallery">
+                <svg class="refresh-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Active Filter Result Count Notice -->
+          <div class="results-bar">
+            <span id="resultsCount">Showing 0 images</span>
+          </div>
+
+          <!-- Gallery Grid Container -->
+          <div class="gallery-grid" id="galleryContainer">
+            <!-- Dynamic cards or skeleton loaders will be inserted here -->
+          </div>
+
+          <!-- Empty State Container -->
+          <div class="empty-state hidden" id="emptyState">
+            <img src="assets/images/empty-gallery.svg" alt="No Images" class="empty-illustration" />
+            <h3 class="empty-title" id="emptyTitle">Your cloud gallery is empty</h3>
+            <p class="empty-desc" id="emptyDesc">Upload your first image above to store it securely in your cloud.</p>
+            <button class="btn btn-primary" id="btnEmptyUpload">
+              Upload Now
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         ARCHITECTURE / HOW IT WORKS SECTION
+    ========================================================================== -->
+    <section class="architecture-section" id="architecture">
+      <div class="container">
+        <div class="section-heading text-center">
+          <span class="badge badge-accent">Enterprise Security Flow</span>
+          <h2 class="section-title">How CloudPix Keeps Images Secure</h2>
+          <p class="section-subtitle">
+            Designed from day one to safeguard your assets with zero credential exposure and time-limited access.
+          </p>
+        </div>
+
+        <div class="flow-grid">
+          
+          <div class="flow-card">
+            <div class="flow-step-num">01</div>
+            <div class="flow-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+              </svg>
+            </div>
+            <h4 class="flow-title">Frontend Upload</h4>
+            <p class="flow-desc">
+              The browser validates file size (&le; 5 MB) and format (JPG, PNG, WEBP), then streams the binary to the Python Flask backend. No AWS keys are stored on the client.
+            </p>
+          </div>
+
+          <div class="flow-card">
+            <div class="flow-step-num">02</div>
+            <div class="flow-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              </svg>
+            </div>
+            <h4 class="flow-title">IAM Role &amp; Boto3</h4>
+            <p class="flow-desc">
+              On AWS EC2, Boto3 automatically retrieves temporary session credentials from the EC2 Instance Metadata Service (IMDS). Bucket is kept 100% private.
+            </p>
+          </div>
+
+          <div class="flow-card">
+            <div class="flow-step-num">03</div>
+            <div class="flow-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+            </div>
+            <h4 class="flow-title">Presigned URL Minting</h4>
+            <p class="flow-desc">
+              When an image is requested, Boto3 cryptographically signs a time-limited GET URL valid for 60 minutes. Direct public bucket access remains completely blocked.
+            </p>
+          </div>
+
+          <div class="flow-card">
+            <div class="flow-step-num">04</div>
+            <div class="flow-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+            </div>
+            <h4 class="flow-title">Local Demo Mode</h4>
+            <p class="flow-desc">
+              Running without AWS credentials? CloudPix auto-detects this and runs a standalone local demo store. The UI clearly labels all images as demo assets.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =========================================================================
+         FEATURES GRID SECTION
+    ========================================================================== -->
+    <section class="features-section" id="features">
+      <div class="container">
+        <div class="section-heading text-center">
+          <span class="badge badge-accent">Core Capabilities</span>
+          <h2 class="section-title">Engineered for Beginners and DevOps Alike</h2>
+          <p class="section-subtitle">Everything you need to host, manage, and scale cloud imagery.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-item">
+            <div class="feature-icon">🛡️</div>
+            <h3>Zero Frontend Leaks</h3>
+            <p>Your AWS access keys and secret keys never touch the browser. All authorization is handled server-side.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">⚡</div>
+            <h3>Fast Presigned Streaming</h3>
+            <p>Generate cryptographic S3 URLs on demand with configurable expiration windows (default: 3600 seconds).</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">📁</div>
+            <h3>Format Validation</h3>
+            <p>Strict server & client checks for JPG, JPEG, PNG, and WEBP formats, enforcing a strict 5 MB file size boundary.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🔍</div>
+            <h3>Real-Time Search &amp; Sort</h3>
+            <p>Instant client-side filtering by format, filename search, and sorting by upload date or byte footprint.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">☁️</div>
+            <h3>Ubuntu EC2 Ready</h3>
+            <p>Includes production Apache reverse proxy configuration, Gunicorn systemd unit, and one-click setup script.</p>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon">🚀</div>
+            <h3>Full-Stack Autonomy</h3>
+            <p>Flask simultaneously serves the REST API and the responsive vanilla frontend with zero node dependencies.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =========================================================================
+       IMAGE PREVIEW & DETAILS MODAL
+  ========================================================================== -->
+  <div class="modal-backdrop hidden" id="previewModal" role="dialog" aria-modal="true" aria-labelledby="modalImageTitle">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <div class="modal-title-wrap">
+          <h3 class="modal-title" id="modalImageTitle">Image Preview</h3>
+          <span class="badge badge-mode" id="modalStorageBadge">Local Demo</span>
+        </div>
+        <button class="modal-close-btn" id="btnModalClose" title="Close (Esc)">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <div class="modal-image-viewport">
+          <img id="modalImageElement" src="" alt="Full Preview" />
+        </div>
+
+        <div class="modal-meta-drawer">
+          <h4 class="drawer-heading">File Metadata</h4>
+          
+          <div class="meta-list">
+            <div class="meta-entry">
+              <span class="meta-key">Filename</span>
+              <span class="meta-val" id="modalFilename">-</span>
+            </div>
+            <div class="meta-entry">
+              <span class="meta-key">Format</span>
+              <span class="meta-val badge badge-accent" id="modalFormat">PNG</span>
+            </div>
+            <div class="meta-entry">
+              <span class="meta-key">File Size</span>
+              <span class="meta-val" id="modalSize">-</span>
+            </div>
+            <div class="meta-entry">
+              <span class="meta-key">Uploaded At</span>
+              <span class="meta-val" id="modalDate">-</span>
+            </div>
+            <div class="meta-entry">
+              <span class="meta-key">Storage Backend</span>
+              <span class="meta-val font-mono" id="modalStorageBackend">-</span>
+            </div>
+            <div class="meta-entry">
+              <span class="meta-key">Access Method</span>
+              <span class="meta-val" id="modalAccessMethod">Presigned URL (60m)</span>
+            </div>
+          </div>
+
+          <div class="drawer-actions">
+            <button class="btn btn-primary btn-block" id="btnModalDownload">
+              <img src="assets/icons/download.svg" alt="Download" class="btn-icon" />
+              Download Image
+            </button>
+            <button class="btn btn-outline btn-block" id="btnModalCopyLink">
+              <img src="assets/icons/copy.svg" alt="Copy" class="btn-icon" />
+              <span id="copyLinkBtnText">Copy Access Link</span>
+            </button>
+            <button class="btn btn-danger btn-block" id="btnModalDelete">
+              <img src="assets/icons/trash.svg" alt="Delete" class="btn-icon" />
+              Delete Image
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       DELETE CONFIRMATION MODAL
+  ========================================================================== -->
+  <div class="modal-backdrop hidden" id="deleteConfirmModal" role="dialog" aria-modal="true">
+    <div class="modal-dialog modal-dialog-sm">
+      <div class="modal-header">
+        <h3 class="modal-title text-danger">Confirm Deletion</h3>
+        <button class="modal-close-btn" id="btnDeleteModalCancelX">✕</button>
+      </div>
+      <div class="modal-body text-center p-6">
+        <div class="danger-icon-circle">
+          <img src="assets/icons/alert-triangle.svg" alt="Warning" />
+        </div>
+        <p class="delete-msg">
+          Are you sure you want to permanently delete <strong id="deleteTargetFilename">this image</strong>?
+        </p>
+        <p class="delete-subtext">This action will remove the file from your storage backend and cannot be undone.</p>
+        
+        <div class="modal-actions-center">
+          <button class="btn btn-ghost" id="btnDeleteCancel">Cancel</button>
+          <button class="btn btn-danger" id="btnDeleteConfirm">
+            <span id="deleteBtnText">Yes, Delete</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       TOAST NOTIFICATION CONTAINER
+  ========================================================================== -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- =========================================================================
+       FOOTER
+  ========================================================================== -->
+  <footer class="footer">
+    <div class="container footer-container">
+      <div class="footer-left">
+        <div class="footer-brand">
+          <img src="assets/icons/logo.svg" alt="CloudPix Logo" class="footer-logo" />
+          <span class="footer-brand-title">CloudPix</span>
+        </div>
+        <p class="footer-desc">
+          Modern cloud image hosting platform with Python Flask, AWS S3, and Boto3.
+        </p>
+      </div>
+
+      <div class="footer-meta">
+        <div class="tech-tags">
+          <span class="tech-tag">Python 3</span>
+          <span class="tech-tag">Flask</span>
+          <span class="tech-tag">AWS S3</span>
+          <span class="tech-tag">Boto3</span>
+          <span class="tech-tag">Vanilla JS</span>
+          <span class="tech-tag">EC2 Ubuntu</span>
+        </div>
+        <p class="copyright">
+          CloudPix &copy; 2026. Released under the MIT License.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
+

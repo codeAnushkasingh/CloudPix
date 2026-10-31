@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 380" fill="none">
+  <defs>
+    <linearGradient id="hero_bg" x1="50" y1="20" x2="480" y2="360" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#E7B0DE" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#400849" stop-opacity="0.15"/>
+    </linearGradient>
+    <linearGradient id="cloud_grad_hero" x1="160" y1="80" x2="360" y2="280" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F8F0F8"/>
+    </linearGradient>
+    <linearGradient id="purple_grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#E7B0DE"/>
+      <stop offset="100%" stop-color="#400849"/>
+    </linearGradient>
+    <filter id="float_shadow" x="120" y="70" width="280" height="230" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="16" stdDeviation="20" flood-color="#400849" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <!-- Background aura -->
+  <rect x="20" y="20" width="480" height="340" rx="28" fill="url(#hero_bg)"/>
+
+  <!-- Background decorative grid lines -->
+  <line x1="60" y1="100" x2="460" y2="100" stroke="#DCC5E8" stroke-dasharray="4 6" opacity="0.6"/>
+  <line x1="60" y1="190" x2="460" y2="190" stroke="#DCC5E8" stroke-dasharray="4 6" opacity="0.6"/>
+  <line x1="60" y1="280" x2="460" y2="280" stroke="#DCC5E8" stroke-dasharray="4 6" opacity="0.6"/>
+
+  <!-- Left Card: S3 Private Vault -->
+  <rect x="50" y="110" width="130" height="150" rx="16" fill="#FFFFFF" stroke="#DCC5E8" stroke-width="2"/>
+  <rect x="65" y="125" width="100" height="60" rx="10" fill="#F8F0F8"/>
+  <circle cx="115" cy="155" r="14" fill="#400849"/>
+  <path d="M112 153V150C112 148.5 113.5 147 115 147C116.5 147 118 148.5 118 150V153M109 153H121V162H109V153Z" stroke="#FFFFFF" stroke-width="1.5"/>
+  <rect x="65" y="195" width="70" height="8" rx="4" fill="#400849" opacity="0.8"/>
+  <rect x="65" y="210" width="45" height="6" rx="3" fill="#DCC5E8"/>
+  <rect x="65" y="225" width="85" height="14" rx="7" fill="#E7B0DE" opacity="0.3"/>
+
+  <!-- Right Card: Presigned URL Generation -->
+  <rect x="340" y="110" width="130" height="150" rx="16" fill="#FFFFFF" stroke="#DCC5E8" stroke-width="2"/>
+  <rect x="355" y="125" width="100" height="60" rx="10" fill="#F8F0F8"/>
+  <circle cx="405" cy="155" r="14" fill="#E7B0DE"/>
+  <path d="M399 155L403 159L411 151" stroke="#400849" stroke-width="2" stroke-linecap="round"/>
+  <rect x="355" y="195" width="75" height="8" rx="4" fill="#400849" opacity="0.8"/>
+  <rect x="355" y="210" width="50" height="6" rx="3" fill="#DCC5E8"/>
+  <rect x="355" y="225" width="80" height="14" rx="7" fill="#400849" opacity="0.1"/>
+
+  <!-- Center Focal Card: CloudPix Engine -->
+  <rect x="150" y="80" width="220" height="210" rx="22" fill="url(#cloud_grad_hero)" stroke="#DCC5E8" stroke-width="2" filter="url(#float_shadow)"/>
+  
+  <!-- Cloud graphic inside center -->
+  <circle cx="260" cy="155" r="44" fill="#400849"/>
+  <path d="M242 165C237 165 233 161 233 156C233 151.5 236 147.5 240.5 146.5C241 136 249.5 128 260 128C268 128 274.5 133 278 139.5C279.5 139 281 138.5 283 138.5C290.5 138.5 296.5 144.5 296.5 152C296.5 152.5 296.5 153 296.5 153.5C298.5 155 300 157.5 300 160C300 165 296 169 291 169H242" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M260 148V174M260 148L252 156M260 148L268 156" stroke="#E7B0DE" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Status pill on center card -->
+  <rect x="180" y="220" width="160" height="30" rx="15" fill="#400849"/>
+  <circle cx="198" cy="235" r="4" fill="#68D391"/>
+  <text x="210" y="239" fill="#FFFFFF" font-family="system-ui, -apple-system, sans-serif" font-size="11" font-weight="600">Presigned S3 Vault</text>
+
+  <!-- Connective curved dashed lines -->
+  <path d="M180 180C205 180 205 180 230 180" stroke="#400849" stroke-width="2" stroke-dasharray="3 3"/>
+  <path d="M290 180C315 180 315 180 340 180" stroke="#400849" stroke-width="2" stroke-dasharray="3 3"/>
+</svg>
+

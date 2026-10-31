@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" fill="none">
+  <defs>
+    <linearGradient id="cloud_bg" x1="50" y1="50" x2="350" y2="250" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#F8F0F8"/>
+      <stop offset="100%" stop-color="#DCC5E8"/>
+    </linearGradient>
+    <linearGradient id="card_grad" x1="120" y1="80" x2="280" y2="240" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#F8F0F8"/>
+    </linearGradient>
+    <filter id="card_shadow" x="90" y="60" width="220" height="190" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#400849" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <!-- Background decorative blobs -->
+  <circle cx="200" cy="150" r="120" fill="url(#cloud_bg)" opacity="0.6"/>
+  <circle cx="290" cy="100" r="24" fill="#E7B0DE" opacity="0.3"/>
+  <circle cx="100" cy="210" r="16" fill="#400849" opacity="0.1"/>
+
+  <!-- Card stack -->
+  <rect x="135" y="70" width="130" height="150" rx="16" fill="#DCC5E8" opacity="0.5" transform="rotate(6 200 145)"/>
+  <rect x="120" y="70" width="160" height="150" rx="16" fill="url(#card_grad)" stroke="#DCC5E8" stroke-width="2" filter="url(#card_shadow)"/>
+
+  <!-- Image placeholder in card -->
+  <rect x="135" y="85" width="130" height="85" rx="10" fill="#F8F0F8"/>
+  <path d="M145 155L170 125L190 145L215 115L255 155H145Z" fill="#E7B0DE" opacity="0.7"/>
+  <circle cx="165" cy="108" r="8" fill="#400849" opacity="0.6"/>
+
+  <!-- Upload arrow accent -->
+  <circle cx="200" cy="195" r="22" fill="#400849"/>
+  <path d="M200 187V203M200 187L194 193M200 187L206 193" stroke="#F8F0F8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Floating Sparkles -->
+  <path d="M105 110L108 118L116 121L108 124L105 132L102 124L94 121L102 118Z" fill="#E7B0DE"/>
+  <path d="M305 170L307 175L312 177L307 179L305 184L303 179L298 177L303 175Z" fill="#400849" opacity="0.5"/>
+</svg>
+
